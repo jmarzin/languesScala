@@ -54,12 +54,24 @@ object Word {
     ).toList
   }
 
+  def findByText(codeLangue: String, texte: String): Iterable[Word] = inTransaction {
+    from(wordsTable) ( w =>
+      where((w.in_french like texte) or (w.in_language like texte) or (w.sort_word like texte))
+        select(w)
+        orderBy(w.sort_word+w.in_french asc)
+    ).toList
+  }
+
   def remove(word: Word) = inTransaction {
     wordsTable.delete(word.id)
   }
 
   def removeById(id: Long) = inTransaction {
     wordsTable.delete(id)
+  }
+
+  def removeAll(codeLangue: String) = inTransaction {
+    wordsTable.delete(allQ(codeLangue))
   }
 
   def update(word: Word) = inTransaction {

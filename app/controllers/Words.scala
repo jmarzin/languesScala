@@ -24,11 +24,16 @@ object Words extends Controller {
     )(Word.apply)(Word.unapply)
   )
 
-  def list(codeLangue: String, page: Int) = Action { implicit request =>
+  def list(codeLangue: String, page: Int, recherche: String) = Action { implicit request =>
     if (request.session.isEmpty)
       Redirect(routes.Themes.changeLanguage("italien"))
     else {
-      val liste = Word.findAll(codeLangue)
+      var liste: Iterable[Word] = Iterable()
+      if (recherche == "") {
+        liste = Word.findAll(codeLangue)
+      } else {
+        liste = Word.findByText(codeLangue,recherche)
+      }
       var pageCourante = page
       val maxpage:Int = ((liste.size - 1) /15) + 1
       if (pageCourante > maxpage) {
@@ -40,7 +45,7 @@ object Words extends Controller {
       val indicSuiv = (pageCourante < maxpage)
       Ok(views.html.words.list(
         liste.dropRight(math.max(0, liste.size - pageCourante * 15)).drop((pageCourante - 1) * 15),
-        indicPrec, indicSuiv, pageCourante))
+        indicPrec, indicSuiv, pageCourante, recherche))
     }
   }
 

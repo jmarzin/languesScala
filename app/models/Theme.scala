@@ -59,6 +59,10 @@ object Theme {
     themesTable.delete(id)
   }
 
+  def removeAll(codeLangue: String) = inTransaction {
+    themesTable.delete(allQ(codeLangue))
+  }
+
   def update(theme: Theme) = inTransaction {
     theme.last_update =
       DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS"))

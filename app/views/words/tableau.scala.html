@@ -12,8 +12,16 @@
         <th></th>
         @for(word <- words) {
             <tr></tr>
-            <td>@word.in_french</td>
-            <td>@word.in_language</td>
+            @if(word.in_french.length > 30){
+                <td>@(word.in_french.substring(0, 30)+"...")</td>
+            } else {
+                <td>@word.in_french</td>
+            }
+            @if(word.in_language.length > 30){
+                <td>@(word.in_language.substring(0, 30)+"...")</td>
+            } else {
+                <td>@word.in_language</td>
+            }
             <td>@Theme.findById(word.theme_id).get.number</td>
             <td><a href="@routes.Words.show(word.id)" class="btn">
                 <i class="icon-plus"></i> @Messages("Voir")

@@ -1,14 +1,21 @@
 @(words: Iterable[Word],
         indicPrec: Boolean,
         indicSuiv: Boolean,
-        page: Int)(implicit session: play.api.mvc.Session,
+        page: Int,
+        recherche: String)(implicit session: play.api.mvc.Session,
         flash: Flash, request: RequestHeader)
 
 @main(Messages("Liste des mots (page "+page+")")) {
     <h1>Liste des mots</h1>
+    @helper.form(action = routes.Words.list(request.session.get("codeLangue").get)) {
+        <input id="recherche" value="@recherche" name="recherche" type="text" autofocus/>
+        <input type="submit" value="Recherche" />
+    }
     <p>
-        <a href="@routes.Words.newWord(request.session.get("codeLangue").get) " class="btn">
-            <i class="icon-plus"></i> @Messages("nouveau mot")</a>
+        @if(session.get("admin") == Some("true")) {
+            <a href="@routes.Words.newWord(request.session.get("codeLangue").get) " class="btn">
+                <i class="icon-plus"></i> @Messages("nouveau mot")</a>
+        }
         @if(indicPrec){
             <a href="@routes.Words.list(request.session.get("codeLangue").get, page - 1) " class="btn"><i class="icon-plus"></i>@Messages("page prec")</a>
         }
