@@ -1,0 +1,20 @@
+@(words: Iterable[Word],
+        indicPrec: Boolean,
+        indicSuiv: Boolean,
+        page: Int)(implicit session: play.api.mvc.Session,
+        flash: Flash, request: RequestHeader)
+
+@main(Messages("Liste des mots (page "+page+")")) {
+    <h1>Liste des mots</h1>
+    <p>
+        <a href="@routes.Words.newWord(request.session.get("codeLangue").get) " class="btn">
+            <i class="icon-plus"></i> @Messages("nouveau mot")</a>
+        @if(indicPrec){
+            <a href="@routes.Words.list(request.session.get("codeLangue").get, page - 1) " class="btn"><i class="icon-plus"></i>@Messages("page prec")</a>
+        }
+        @if(indicSuiv){
+            <a href="@routes.Words.list(request.session.get("codeLangue").get, page + 1) " class="btn"><i class="icon-plus"></i>@Messages("page suiv")</a>
+        }
+    </p>
+    @views.html.words.tableau(words)
+}

@@ -1,0 +1,13 @@
+@(adminForm: Form[Admin])(implicit session: play.api.mvc.Session, flash: Flash, lang: Lang)
+
+@import helper.twitterBootstrap._
+
+@main(Messages("new.theme.form")) {
+    @helper.form(action = routes.Admins.checkPassword()) {
+        <fieldset>
+            @helper.inputPassword(adminForm("password"))
+        </fieldset>
+        <p><input type="submit" class="btn primary"
+        value='@Messages("send")'></p>
+    }
+}

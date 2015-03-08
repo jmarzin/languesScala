@@ -1,0 +1,34 @@
+@(words: Iterable[Word])(implicit session: play.api.mvc.Session,
+        flash: Flash, request: RequestHeader)
+
+@if(words.size!=0) {
+    <table>
+        <tr></tr>
+        <th>En français</th>
+        <th>Traduction</th>
+        <th>Thème</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        @for(word <- words) {
+            <tr></tr>
+            <td>@word.in_french</td>
+            <td>@word.in_language</td>
+            <td>@Theme.findById(word.theme_id).get.number</td>
+            <td><a href="@routes.Words.show(word.id)" class="btn">
+                <i class="icon-plus"></i> @Messages("Voir")
+            </a></td>
+            @if(session.get("admin") == Some("true")) {
+                <td><a href="@routes.Words.edit(word.id)" class="btn">
+                    <i class="icon-plus"></i> @Messages("Corr")
+                </a></td>
+                <td><a href="@routes.Words.delete(word.id)" class="btn" onclick="deleteDialog(event)">
+                    <i class="icon-plus"></i> @Messages("Supp")
+                </a></td>
+            }
+        }
+    </table>
+} else {
+    Liste vide
+}
+

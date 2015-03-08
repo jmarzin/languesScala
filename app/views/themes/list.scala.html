@@ -1,0 +1,47 @@
+@(themes: Iterable[Theme],
+        indicPrec: Boolean,
+        indicSuiv: Boolean,
+        page: Int)(implicit session: play.api.mvc.Session,
+        flash: Flash, request: RequestHeader)
+
+@main(Messages("Liste des thèmes (page "+page+")")) {
+    <h1>Liste des thèmes</h1>
+    <p>
+        <a href="@routes.Themes.newTheme(request.session.get("codeLangue").get)" class="btn">
+            <i class="icon-plus"></i> @Messages("nouveau thème")</a>
+        @if(indicPrec){
+            <a href="@routes.Themes.list(request.session.get("codeLangue").get, page - 1) " class="btn"><i class="icon-plus"></i>@Messages("page prec")</a>
+        }
+        @if(indicSuiv){
+            <a href="@routes.Themes.list(request.session.get("codeLangue").get, page + 1) " class="btn"><i class="icon-plus"></i>@Messages("page suiv")</a>
+        }
+    </p>
+    @if(themes.size!=0) {
+        <table>
+            <tr></tr>
+            <th>Numéro</th>
+            <th>Libellé</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            @for(theme <- themes) {
+                <tr></tr>
+                <td>@("%02d".format(theme.number))</td>
+                <td>@theme.in_language</td>
+                <td><a href="@routes.Themes.show(theme.id)" class="btn">
+                    <i class="icon-plus"></i> @Messages("Voir")
+                </a></td>
+                @if(session.get("admin") == Some("true")) {
+                    <td><a href="@routes.Themes.edit(theme.id)" class="btn">
+                        <i class="icon-plus"></i> @Messages("Corr")
+                    </a></td>
+                    <td><a href="@routes.Themes.delete(theme.id)" class="btn" onclick="deleteDialog(event)">
+                        <i class="icon-plus"></i> @Messages("Supp")
+                    </a></td>
+                }
+            }
+        </table>
+    } else {
+        Liste vide
+    }
+}

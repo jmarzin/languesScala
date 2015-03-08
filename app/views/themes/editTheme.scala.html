@@ -1,0 +1,21 @@
+@(themeForm: Form[Theme], id: Option[Long] = None)(implicit session: Session, flash: Flash, lang: Lang)
+@import helper._
+@import helper.twitterBootstrap._
+@main(Messages("theme.form")) {
+    <h2>@Messages("theme.form")</h2>
+    @helper.form(action = id.map(routes.Themes.update(_)).getOrElse(routes.Themes.save(session.get("codeLangue").get))) {
+        <fieldset>
+            <legend>
+            @Messages("theme.details", themeForm("id").value.getOrElse(Messages("theme.new")))
+            </legend>
+            <div hidden>
+                @helper.inputText(themeForm("id"))
+                @helper.inputText(themeForm("language_id"))
+                @helper.inputText(themeForm("last_update"))
+            </div>
+            @helper.inputText(themeForm("number"))
+            @helper.inputText(themeForm("in_language"))
+        </fieldset>
+        <p><input type="submit" class="btn primary" value='@id.map(_=> Messages("themes.edit.submit")).getOrElse(Messages("themes.new.submit"))'></p>
+    }
+}

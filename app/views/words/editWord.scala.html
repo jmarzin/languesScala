@@ -1,0 +1,33 @@
+@(wordForm: Form[Word], id: Option[Long] = None)(implicit session: Session, flash: Flash, lang: Lang)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("word.form")) {
+    <h2>@Messages("word.form")</h2>
+    @helper.form(action = id.map(routes.Words.update(_)).getOrElse(routes.Words.save(session.get("codeLangue").get))) {
+        <fieldset>
+            <legend>
+            @Messages("word.details", wordForm("id").value.getOrElse(Messages("word.new")))
+            </legend>
+            <div hidden>
+                @helper.inputText(wordForm("id"))
+                @helper.inputText(wordForm("language_id"))
+                @helper.inputText(wordForm("last_update"))
+            </div>
+            @*TODO gestion de la liste des thèmes*@
+            @select(field = wordForm("theme_id"),
+                options = Seq("0"->"   Choisissez le thème").
+                        ++(Theme.findAll(session.get("codeLangue").get).
+                            map(t => (t.id.toString, "%02d".format(t.number)+" "+t.in_language))
+                            .toSeq))
+            @helper.inputText(wordForm("in_french"),
+                'onchange -> "constructSortWord()",
+                'class -> "in_french")
+            @helper.inputText(wordForm("sort_word"),
+                'class -> "sort_word")
+            @helper.inputText(wordForm("in_language"))
+        </fieldset>
+        <p><input type="submit" class="btn primary" value='@id.map(_=> Messages("words.edit.submit")).getOrElse(Messages("words.new.submit"))'></p>
+    }
+}

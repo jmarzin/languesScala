@@ -1,0 +1,18 @@
+@(verbs: Iterable[Verb])(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
+
+@main(Messages("Liste des verbes")) {
+    <h1>Liste des Verbes</h1>
+    <table>
+        @for(verb <- verbs) {
+            <tr></tr>
+            <td>@verb.in_language</td>
+            <td><a href="#" class="btn"> <i class="icon-plus"></i> @Messages("Voir")</a></td>
+            @if(session.get("admin")==Some("true")) {
+                <td><a href="#" class="btn"> <i class="icon-plus"></i> @Messages("Corr")</a></td>
+                <td><a href="#" class="btn"> <i class="icon-plus"></i> @Messages("Supp")</a></td>
+            }
+        }
+    </table>
+    <p><a href="#" class="btn">
+        <i class="icon-plus"></i> @Messages("nouveau verbe")</a></p>
+}

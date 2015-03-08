@@ -1,0 +1,42 @@
+@(word: Word)(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
+
+@main(Messages("Détail d'un mot")) {
+    <h1>Détail du mot @word.in_french du thème @Theme.findById(word.theme_id).get.in_language</h1>
+    @helper.form(action = routes.Words.newWord(request.session.get("codeLangue").get)) {
+        <table>
+            <tr></tr>
+            <td>Id :</td>
+            <td>@word.id</td>
+            <tr></tr>
+            <td>Code langue :</td>
+            <td>@word.language_id</td>
+            <tr></tr>
+            <td>Id du thème :</td>
+            <td>@word.theme_id</td>
+            <tr></tr>
+            <td>En français :</td>
+            <td>@word.in_french</td>
+            <tr></tr>
+            <td>Mot directeur :</td>
+            <td>@word.sort_word</td>
+            <tr></tr>
+            <td>Traduction :</td>
+            <td>@word.in_language</td>
+            <tr></tr>
+            <td>Dernière modification : </td>
+            <td>@word.last_update</td>
+        </table>
+        <br>
+        @if(session.get("admin") == Some("true")) {
+          <p>
+              <input type="submit" class="btn primary" value="Nouveau mot" autofocus>
+              <a href="@routes.Words.edit(word.id)" class="btn">
+                  <i class="icon-plus"></i> @Messages("Corr")
+              </a>
+              <a href="@routes.Words.delete(word.id)" class="btn" onclick="deleteDialog(event)">
+                  <i class="icon-plus"></i> @Messages("Supp")
+              </a>
+          </p>
+        }
+    }
+}

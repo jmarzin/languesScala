@@ -1,0 +1,52 @@
+@(langue: Option[String])(implicit session: play.api.mvc.Session)
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav">
+                <li> <img src="@routes.Assets.at("images/"+langue.get.split(" ")(0)+".png")" alt="flag" height="40" width="40"> </li>
+                <li>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            Autres langues
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                            @if(langue.get=="italien") {
+                                <li hidden>
+                            } else {
+                                <li>
+                            }
+                                <a tabindex="-1"
+                                href="@routes.Themes.changeLanguage("italien")">Italien</a></li>
+                            @if(langue.get=="anglais") {
+                                <li hidden>
+                            } else {
+                                <li>
+                            }
+                                <a tabindex="-1"
+                                href="@routes.Themes.changeLanguage("anglais")">Anglais</a></li>
+                            @if(langue.get=="espagnol") {
+                                <li hidden>
+                            } else {
+                                <li>
+                            }
+                                <a tabindex="-1"
+                                href="@routes.Themes.changeLanguage("espagnol")">Espagnol</a></li>
+                            @if(langue.get=="lingvo internacia") {
+                                <li >hidden
+                            } else {
+                                <li>
+                            }
+                                <a tabindex="-1"
+                                href="@routes.Themes.changeLanguage("lingvo internacia")">Espéranto</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="@routes.Themes.list(session.get("codeLangue").get)">Thèmes</a></li>
+                <li><a href="@routes.Words.list(session.get("codeLangue").get)">Mots</a></li>
+                <li><a href="@routes.Verbs.list">Verbes</a></li>
+                <li><a  href="@routes.Admins.password">Administration</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

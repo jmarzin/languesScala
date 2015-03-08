@@ -1,0 +1,32 @@
+@(theme: Theme)(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
+@import helper._
+@main(Messages("Détail d'un thème")) {
+    @helper.form(action = routes.Themes.newTheme(request.session.get("codeLangue").get)) {
+        <h1>Détail du thème @theme.number @theme.in_language</h1>
+        <table>
+            <tr></tr>
+            <td>Id :</td>
+            <td>@theme.id</td>
+            <tr></tr>
+            <td>Code langue :</td>
+            <td>@theme.language_id</td>
+            <tr></tr>
+            <td>Dernière modification : </td>
+            <td>@theme.last_update</td>
+        </table>
+        <br>
+        @if(session.get("admin") == Some("true")) {
+            <p>
+                <input type="submit" class="btn primary" value="Nouveau thème" autofocus>
+                <a href="@routes.Themes.edit(theme.id)" class="btn">
+                    <i class="icon-plus"></i> @Messages("Corr")
+                </a>
+                <a href="@routes.Themes.delete(theme.id)" class="btn" onclick="deleteDialog(event)">
+                    <i class="icon-plus"></i> @Messages("Supp")
+                </a>
+            </p>
+        }
+        <h2>Mots du thème</h2>
+        @views.html.words.tableau(Word.findByThemeId(theme.id))
+    }
+}
