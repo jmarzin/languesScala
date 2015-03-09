@@ -115,7 +115,7 @@ object Words extends Controller {
   def delete(id: Long) = Action { implicit request =>
     Word.removeById(id)
     val message = "Mot supprimé"
-    Redirect(routes.Words.list(request.session.get("codeLangue").get)).flashing("success" -> message)
+    Redirect(routes.Words.list(request.session.get("codeLangue").get,1)).flashing("success" -> message)
   }
 
   def apiV1DateWords(codeL: String) = Action {

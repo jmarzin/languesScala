@@ -7,7 +7,7 @@
 
 @main(Messages("Liste des mots (page "+page+")")) {
     <h1>Liste des mots</h1>
-    @helper.form(action = routes.Words.list(request.session.get("codeLangue").get)) {
+    @helper.form(action = routes.Words.list(request.session.get("codeLangue").get, page)) {
         <input id="recherche" value="@recherche" name="recherche" type="text" autofocus/>
         <input type="submit" value="Recherche" />
     }
@@ -17,10 +17,10 @@
                 <i class="icon-plus"></i> @Messages("nouveau mot")</a>
         }
         @if(indicPrec){
-            <a href="@routes.Words.list(request.session.get("codeLangue").get, page - 1) " class="btn"><i class="icon-plus"></i>@Messages("page prec")</a>
+            <a href="@routes.Words.list(request.session.get("codeLangue").get, page - 1, recherche) " class="btn"><i class="icon-plus"></i>@Messages("page prec")</a>
         }
         @if(indicSuiv){
-            <a href="@routes.Words.list(request.session.get("codeLangue").get, page + 1) " class="btn"><i class="icon-plus"></i>@Messages("page suiv")</a>
+            <a href="@routes.Words.list(request.session.get("codeLangue").get, page + 1, recherche) " class="btn"><i class="icon-plus"></i>@Messages("page suiv")</a>
         }
     </p>
     @views.html.words.tableau(words)

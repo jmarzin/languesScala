@@ -2,11 +2,11 @@
         flash: Flash, request: RequestHeader)
 
 @if(words.size!=0) {
-    <table>
+    <table class="mots">
         <tr></tr>
-        <th>En français</th>
-        <th>Traduction</th>
-        <th>Thème</th>
+        <th class="in_french">En français</th>
+        <th class="in_language">Traduction</th>
+        <th class="theme">Thème</th>
         <th></th>
         <th></th>
         <th></th>
@@ -22,7 +22,7 @@
             } else {
                 <td>@word.in_language</td>
             }
-            <td>@Theme.findById(word.theme_id).get.number</td>
+            <td>@("%02d".format(Theme.findById(word.theme_id).get.number))</td>
             <td><a href="@routes.Words.show(word.id)" class="btn">
                 <i class="icon-plus"></i> @Messages("Voir")
             </a></td>
