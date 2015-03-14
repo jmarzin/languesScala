@@ -14,7 +14,7 @@
                 @helper.inputText(themeForm("last_update"))
             </div>
             @helper.inputText(themeForm("number"))
-            @helper.inputText(themeForm("in_language"))
+            @helper.inputText(themeForm("in_language"),'autofocus -> "true")
         </fieldset>
         <p><input type="submit" class="btn primary" value='@id.map(_=> Messages("themes.edit.submit")).getOrElse(Messages("themes.new.submit"))'></p>
     }

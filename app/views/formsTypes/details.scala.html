@@ -1,0 +1,30 @@
+@(formType: FormType)(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
+@import helper._
+@main(Messages("Détail d'un type de forme")) {
+    @helper.form(action = routes.FormsTypes.newFormType(request.session.get("codeLangue").get)) {
+        <h1>Détail du type @formType.number @formType.in_french</h1>
+        <table>
+            <tr></tr>
+            <td>Id :</td>
+            <td>@formType.id</td>
+            <tr></tr>
+            <td>Code langue :</td>
+            <td>@formType.language_id</td>
+            <tr></tr>
+            <td>Dernière modification : </td>
+            <td>@formType.last_update</td>
+        </table>
+        <br>
+        @if(session.get("admin") == Some("true")) {
+            <p>
+                <input type="submit" class="btn primary" value="Nouveau type" autofocus>
+                <a href="@routes.FormsTypes.edit(formType.id)" class="btn">
+                    <i class="icon-plus"></i> @Messages("Corr")
+                </a>
+                <a href="@routes.FormsTypes.delete(formType.id)" class="btn" onclick="deleteDialog(event)">
+                    <i class="icon-plus"></i> @Messages("Supp")
+                </a>
+            </p>
+        }
+    }
+}

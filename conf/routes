@@ -14,6 +14,14 @@ POST        /themes/:id                                    controllers.Themes.up
 PUT         /themes/:id                                    controllers.Themes.update(id: Long)
 GET         /themes/:id/edit                               controllers.Themes.edit(id: Long)
 GET         /themes/:id/supp                               controllers.Themes.delete(id: Long)
+GET         /typesformes/$codeL<\w\w>/list                      controllers.FormsTypes.list(codeL: String, page: Int ?= 1)
+GET         /typesformes/$codeL<\w\w>/new                       controllers.FormsTypes.newFormType(codeL: String)
+POST        /typesformes/$codeL<\w\w>                           controllers.FormsTypes.save(codeL: String)
+GET         /typesformes/:id                                    controllers.FormsTypes.show(id: Long)
+POST        /typesformes/:id                                    controllers.FormsTypes.update(id: Long)
+PUT         /typesformes/:id                                    controllers.FormsTypes.update(id: Long)
+GET         /typesformes/:id/edit                               controllers.FormsTypes.edit(id: Long)
+GET         /typesformes/:id/supp                               controllers.FormsTypes.delete(id: Long)
 GET         /admin                                         controllers.Admins.password
 POST        /admin                                         controllers.Admins.checkPassword
 GET         /admin/charge                                  controllers.Admins.charge

@@ -1,0 +1,23 @@
+@(formTypeForm: Form[FormType], id: Option[Long] = None)(implicit session: Session, flash: Flash, lang: Lang)
+@import helper._
+@import helper.twitterBootstrap._
+@main(Messages("formType.form")) {
+    <h2>@Messages("formType.form")</h2>
+    @helper.form(action = id.map(routes.FormsTypes.update(_)).getOrElse(routes.FormsTypes.save(session.get("codeLangue").get))) {
+        <fieldset>
+            <legend>
+            @Messages("formType.details", formTypeForm("id").value.getOrElse(Messages("formType.new")))
+            </legend>
+            <div hidden>
+                @helper.inputText(formTypeForm("id"))
+                @helper.inputText(formTypeForm("language_id"))
+                @helper.inputText(formTypeForm("last_update"))
+            </div>
+            @helper.inputText(formTypeForm("number"))
+            @helper.inputText(formTypeForm("in_french"),
+                'autofocus -> "true")
+        </fieldset>
+        <p><input type="submit" class="btn primary"
+            value='@id.map(_=> Messages("formsTypes.edit.submit")).getOrElse(Messages("formsTypes.new.submit"))'></p>
+    }
+}

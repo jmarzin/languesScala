@@ -23,7 +23,8 @@
                             .toSeq))
             @helper.inputText(wordForm("in_french"),
                 'onchange -> "constructSortWord()",
-                'class -> "in_french")
+                'class -> "in_french",
+                'autofocus -> "true")
             @helper.inputText(wordForm("sort_word"),
                 'class -> "sort_word")
             @helper.inputText(wordForm("in_language"))
