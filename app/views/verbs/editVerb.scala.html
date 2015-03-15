@@ -1,0 +1,36 @@
+@(verbForm: Form[(Verb,List[(VForm,FormType)])], id: Option[Long] = None)(implicit session: Session, flash: Flash, lang: Lang)
+@import helper._
+@import helper.twitterBootstrap._
+@main(Messages("verb.form")) {
+    <h2>@Messages("verb.form")</h2>
+    @helper.form(action = id.map(routes.Verbs.update(_)).getOrElse(routes.Verbs.save(session.get("codeLangue").get))) {
+        <fieldset>
+            <legend>
+            @Messages("verb.details", verbForm("id").value.getOrElse(Messages("verb.new")))
+            </legend>
+            <div hidden>
+                @helper.inputText(verbForm("verbe.id"))
+                @helper.inputText(verbForm("verbe.language_id"))
+                @helper.inputText(verbForm("verbe.last_update"))
+            </div>
+            @helper.inputText(verbForm("verbe.in_language"),'autofocus -> "true")
+            @helper.repeat(verbForm("formes")) { tagField =>
+                    <div hidden>
+                        @helper.inputText(tagField("forme.id"))
+                        @helper.inputText(tagField("forme.language_id"))
+                        @helper.inputText(tagField("forme.verb_id"))
+                        @helper.inputText(tagField("forme.form_type_id"))
+                        @helper.inputText(tagField("forme.last_update"))
+                        @helper.inputText(tagField("type.id"))
+                        @helper.inputText(tagField("type.language_id"))
+                        @helper.inputText(tagField("type.number"))
+                        @helper.inputText(tagField("type.in_language"))
+                        @helper.inputText(tagField("type.last_update"))
+                    </div>
+                @helper.inputText(tagField("forme.in_language"), '_label -> tagField("type.in_language").value.get)
+
+            }
+        </fieldset>
+        <p><input type="submit" class="btn primary" value='@id.map(_=> Messages("verbs.edit.submit")).getOrElse(Messages("verbs.new.submit"))'></p>
+    }
+}

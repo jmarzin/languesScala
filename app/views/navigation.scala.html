@@ -44,9 +44,9 @@
                 </li>
                 <li><a href="@routes.Themes.list(session.get("codeLangue").get)">Thèmes</a></li>
                 <li><a href="@routes.Words.list(session.get("codeLangue").get,1)">Mots</a></li>
-                <li><a href="@routes.Verbs.list">Verbes</a></li>
+                <li><a href="@routes.Verbs.list(session.get("codeLangue").get)">Verbes</a></li>
                 <li><a href="@routes.FormsTypes.list(session.get("codeLangue").get)">Types de formes</a></li>
-                <li><a  href="@routes.Admins.password">Administration</a></li>
+                <li><a href="@routes.Admins.password">Administration</a></li>
             </ul>
         </div>
     </div>

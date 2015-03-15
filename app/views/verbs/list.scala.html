@@ -1,18 +1,47 @@
-@(verbs: Iterable[Verb])(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
+@(verbs: Iterable[Verb],
+        indicPrec: Boolean,
+        indicSuiv: Boolean,
+        page: Int)(implicit session: play.api.mvc.Session,
+        flash: Flash, request: RequestHeader)
 
-@main(Messages("Liste des verbes")) {
-    <h1>Liste des Verbes</h1>
-    <table>
-        @for(verb <- verbs) {
-            <tr></tr>
-            <td>@verb.in_language</td>
-            <td><a href="#" class="btn"> <i class="icon-plus"></i> @Messages("Voir")</a></td>
-            @if(session.get("admin")==Some("true")) {
-                <td><a href="#" class="btn"> <i class="icon-plus"></i> @Messages("Corr")</a></td>
-                <td><a href="#" class="btn"> <i class="icon-plus"></i> @Messages("Supp")</a></td>
-            }
+    @main(Messages("Liste des verbes (page "+page+")")) {
+    <h1>Liste des verbes</h1>
+    <p>
+        @if(session.get("admin") == Some("true")) {
+            <a href="@routes.Verbs.newVerb(request.session.get("codeLangue").get)" class="btn">
+                <i class="icon-plus"></i> @Messages("nouveau verbe")</a>
         }
-    </table>
-    <p><a href="#" class="btn">
-        <i class="icon-plus"></i> @Messages("nouveau verbe")</a></p>
+        @if(indicPrec){
+            <a href="@routes.Verbs.list(request.session.get("codeLangue").get, page - 1) " class="btn"><i class="icon-plus"></i>@Messages("page prec")</a>
+        }
+        @if(indicSuiv){
+            <a href="@routes.Verbs.list(request.session.get("codeLangue").get, page + 1) " class="btn"><i class="icon-plus"></i>@Messages("page suiv")</a>
+        }
+    </p>
+    @if(verbs.size!=0) {
+        <table class="themes">
+            <tr></tr>
+            <th class="in_language">Infinitif</th>
+            <th class="bouton"></th>
+            <th class="bouton"></th>
+            <th class="bouton"></th>
+            @for(verb <- verbs) {
+                <tr></tr>
+                <td>@verb.in_language</td>
+                <td><a href="@routes.Verbs.show(verb.id)" class="btn">
+                    <i class="icon-plus"></i> @Messages("Voir")
+                </a></td>
+                @if(session.get("admin") == Some("true")) {
+                    <td><a href="@routes.Verbs.edit(verb.id)" class="btn">
+                        <i class="icon-plus"></i> @Messages("Corr")
+                    </a></td>
+                    <td><a href="@routes.Verbs.delete(verb.id)" class="btn" onclick="deleteDialog(event)">
+                        <i class="icon-plus"></i> @Messages("Supp")
+                    </a></td>
+                }
+            }
+        </table>
+    } else {
+        Liste vide
+    }
 }

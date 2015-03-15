@@ -29,7 +29,7 @@ object Database extends Schema {
     f.id is(autoIncremented("forms__id_seq"))
   }}
 
-  val verbToForms = oneToManyRelation(verbsTable, formsTable).via((v,f) => v.id === f.verb_id)
+//  val verbToForms = oneToManyRelation(verbsTable, formsTable).via((v,f) => v.id === f.verb_id)
 
   val formsTypeTable = table[FormType]("formstypes")
   on(this.formsTypeTable) { ft => declare {

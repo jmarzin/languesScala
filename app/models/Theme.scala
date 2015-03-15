@@ -28,9 +28,11 @@ object Theme {
   def allQ(codeLangue: String): Query[Theme] = from(themesTable) {
     theme => where(theme.language_id === codeLangue) select(theme) orderBy("%02d".format(theme.number) asc)
   }
+
   def findAll(codeLangue: String): Iterable[Theme] = inTransaction {
     allQ(codeLangue).toList
   }
+
   def insert(theme: Theme): Theme = inTransaction {
     theme.last_update =
       DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS"))

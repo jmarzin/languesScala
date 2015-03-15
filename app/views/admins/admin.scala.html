@@ -5,7 +5,8 @@
 @main(Messages("new.theme.form")) {
     @helper.form(action = routes.Admins.checkPassword()) {
         <fieldset>
-            @helper.inputPassword(adminForm("password"))
+            @helper.inputPassword(adminForm("password"),
+            'autofocus -> "true")
         </fieldset>
         <p><input type="submit" class="btn primary"
         value='@Messages("send")'></p>
