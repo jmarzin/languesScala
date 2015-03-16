@@ -1,5 +1,5 @@
 @(formType: FormType)(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
-@import helper._
+
 @main(Messages("Détail d'un type de forme")) {
     @helper.form(action = routes.FormsTypes.newFormType(request.session.get("codeLangue").get)) {
         <h1>Détail du type @formType.number @formType.in_french</h1>

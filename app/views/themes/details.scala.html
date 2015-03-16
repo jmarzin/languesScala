@@ -1,5 +1,5 @@
 @(theme: Theme)(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
-@import helper._
+
 @main(Messages("Détail d'un thème")) {
     @helper.form(action = routes.Themes.newTheme(request.session.get("codeLangue").get)) {
         <h1>Détail du thème @theme.number @theme.in_language</h1>

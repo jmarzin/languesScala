@@ -1,7 +1,5 @@
 package models
 
-import java.sql.Timestamp
-import java.util.Date
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTimeZone, DateTime}
 import org.squeryl.KeyedEntity

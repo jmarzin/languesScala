@@ -8,7 +8,7 @@ scalaVersion := "2.11.1"
 
 libraryDependencies ++= Seq( jdbc , anorm , cache , ws )
 
-libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0" % "test"
+libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
 
 libraryDependencies += "org.postgresql" % "postgresql" % "9.3-1100-jdbc4"
 

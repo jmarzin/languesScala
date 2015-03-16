@@ -1,9 +1,5 @@
 package models
 
-import java.util.Date
-
-import org.squeryl.KeyedEntity
-
 import scala.language.postfixOps
 
 /**

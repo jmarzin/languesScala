@@ -10,7 +10,6 @@ import play.api.data.Form
 import play.api.data.Forms.{mapping, longNumber, number, text, nonEmptyText}
 import play.api.i18n.Messages
 
-
 /**
  * Created by jacques on 25/02/15.
  */

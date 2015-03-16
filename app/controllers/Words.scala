@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Word,Theme}
+import models.Word
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages

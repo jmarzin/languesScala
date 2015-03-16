@@ -1,12 +1,9 @@
 package models
 
-
-import models.Database._
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTimeZone, DateTime}
 import org.squeryl.PrimitiveTypeMode._
 import org.squeryl.{Query, KeyedEntity}
-
 import scala.collection.Iterable
 
 /**

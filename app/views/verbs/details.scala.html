@@ -1,5 +1,5 @@
 @(verb: Verb)(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
-@import helper._
+
 @main(Messages("Détail d'un verbe")) {
     @helper.form(action = routes.Verbs.newVerb(request.session.get("codeLangue").get)) {
         <h1>Détail du verbe @verb.in_language</h1>

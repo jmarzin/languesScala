@@ -4,19 +4,13 @@ import akka.util.Crypt
 import models._
 import play.api.Play.current
 import play.api.data.Form
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.{JsArray, Json}
 import scala.concurrent.duration._
 import play.api.data.Forms.{mapping, nonEmptyText}
 import play.api.i18n.Messages
 import play.api.libs.ws.WS
 import play.api.mvc.{Flash, Action, Controller}
-import java.lang.String._
-
-
 import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.tools.nsc.interpreter.session
 
 /**
  * Created by jacques on 25/02/15.
@@ -32,7 +26,7 @@ object Admins extends Controller{
 
   val foo = adminForm.copy()
 
-  private def langue(codeLangue: String) = codeLangue match {
+  def langue(codeLangue: String) = codeLangue match {
     case "it" => "italien"
     case "es" => "espagnol"
     case "an" => "anglais"

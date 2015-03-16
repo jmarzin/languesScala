@@ -1,15 +1,12 @@
 package controllers
 
-import com.fasterxml.jackson.databind.node.LongNode
 import models.{Verb, VForm, FormType}
 import play.api.data.{Forms, Form}
-import play.api.data.Forms.{mapping, tuple, list, longNumber, number, text, nonEmptyText}
+import play.api.data.Forms.{mapping, tuple, longNumber, number, text, nonEmptyText}
 import play.api.i18n.Messages
 import play.api.libs.json.{Json, JsString, JsNumber}
 import play.api.mvc.{Flash, Action, Controller}
 import org.squeryl.PrimitiveTypeMode._
-import org.squeryl.{Query, KeyedEntity}
-
 
 /**
  * Created by jacques on 25/02/15.
