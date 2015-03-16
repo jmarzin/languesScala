@@ -6,8 +6,8 @@
 GET         /                                       controllers.Application.index
 GET         /themes/$codeL<\w\w>/list               controllers.Themes.list(codeL: String, page: Int ?= 1)
 GET         /themes/$codeL<\w\w>/new                controllers.Themes.newTheme(codeL: String)
-GET         /$codeL<\w\w>/api/v1/date_verbes        controllers.Themes.apiV1DateThemes(codeL: String)
-GET         /$codeL<\w\w>/api/v1/verbes             controllers.Themes.apiV1Themes(codeL: String)
+GET         /$codeL<\w\w>/api/v1/date_themes        controllers.Themes.apiV1DateThemes(codeL: String)
+GET         /$codeL<\w\w>/api/v1/themes             controllers.Themes.apiV1Themes(codeL: String)
 POST        /themes/$codeL<\w\w>                    controllers.Themes.save(codeL: String)
 GET         /themes/:id                             controllers.Themes.show(id: Long)
 POST        /themes/:id                             controllers.Themes.update(id: Long)
@@ -24,7 +24,8 @@ GET         /typesformes/:id/edit                   controllers.FormsTypes.edit(
 GET         /typesformes/:id/supp                   controllers.FormsTypes.delete(id: Long)
 GET         /admin                                  controllers.Admins.password
 POST        /admin                                  controllers.Admins.checkPassword
-GET         /admin/charge                           controllers.Admins.charge
+GET         /admin/$codeL<\w\w>/charge_mots         controllers.Admins.chargeWords(codeL: String)
+GET         /admin/$codeL<\w\w>/charge_verbes       controllers.Admins.chargeVerbs(codeL: String)
 GET         /mots/$codeL<\w\w>/list/:page           controllers.Words.list(codeL: String, page: Int, recherche: String ?= "")
 GET         /mots/$codeL<\w\w>/new                  controllers.Words.newWord(codeL: String)
 GET         /$codeL<\w\w>/api/v1/date_mots          controllers.Words.apiV1DateWords(codeL: String)
@@ -39,6 +40,8 @@ GET         /verbes/$codeL<\w\w>/list               controllers.Verbs.list(codeL
 GET         /verbes/$codeL<\w\w>/new                controllers.Verbs.newVerb(codeL: String)
 GET         /$codeL<\w\w>/api/v1/date_verbes        controllers.Verbs.apiV1DateVerbs(codeL: String)
 GET         /$codeL<\w\w>/api/v1/verbes             controllers.Verbs.apiV1Verbs(codeL: String)
+GET         /$codeL<\w\w>/api/v1/date_formes        controllers.Verbs.apiV1DateForms(codeL: String)
+GET         /$codeL<\w\w>/api/v1/formes             controllers.Verbs.apiV1Forms(codeL: String)
 POST        /verbes/$codeL<\w\w>                    controllers.Verbs.save(codeL: String)
 GET         /verbes/:id                             controllers.Verbs.show(id: Long)
 POST        /verbes/:id                             controllers.Verbs.update(id: Long)

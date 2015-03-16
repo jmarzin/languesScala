@@ -162,4 +162,14 @@ object Verbs extends Controller{
       .map(t => List(JsNumber(t.id),JsString(t.in_language)))
     Ok(Json.toJson(listVerbs))
   }
+
+  def apiV1DateForms(codeL: String) = Action {
+    Ok(VForm.maxUpdate(codeL))
+  }
+
+  def apiV1Forms(codeL: String) = Action {
+    val listForms = VForm.findAll(codeL)
+      .map(f => List(JsNumber(f.id),JsNumber(f.verb_id),JsNumber(f.form_type_id),JsString(f.in_language)))
+    Ok(Json.toJson(listForms))
+  }
 }
