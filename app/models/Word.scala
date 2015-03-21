@@ -24,7 +24,7 @@ object Word {
   import Database.wordsTable
 
   def allQ(codeLangue: String): Query[Word] = from(wordsTable) {
-    word => where(word.language_id === codeLangue) select(word) orderBy(word.sort_word+word.in_french asc)
+    word => where(word.language_id === codeLangue) select(word) orderBy(word.sort_word, word.in_french asc)
   }
   def findAll(codeLangue: String): Iterable[Word] = inTransaction {
     allQ(codeLangue).toList
@@ -46,7 +46,7 @@ object Word {
     from(wordsTable) ( w =>
       where(w.theme_id === themeId)
         select(w)
-        orderBy(w.sort_word+w.in_french asc)
+        orderBy(w.sort_word, w.in_french asc)
     ).toList
   }
 
@@ -54,7 +54,7 @@ object Word {
     from(wordsTable) ( w =>
       where((w.in_french like texte) or (w.in_language like texte) or (w.sort_word like texte))
         select(w)
-        orderBy(w.sort_word+w.in_french asc)
+        orderBy(w.sort_word, w.in_french asc)
     ).toList
   }
 
