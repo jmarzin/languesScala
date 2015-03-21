@@ -21,7 +21,9 @@ object Words extends Controller {
       "sort_word" -> nonEmptyText,
       "in_language" -> nonEmptyText,
       "last_update" -> text
-    )(Word.apply)(Word.unapply)
+    )(Word.apply)(Word.unapply) verifying("Le mot existe déjà !", fields => fields match {
+      case word => Word.findByThemeIdAndInFrench(word.theme_id,word.in_french).isEmpty
+    })
   )
 
   def list(codeLangue: String, page: Int, recherche: String) = Action { implicit request =>

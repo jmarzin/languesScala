@@ -12,7 +12,7 @@ function deleteDialog(e) {
 
 function constructSortWord() {
     var value = $(".in_french").val().replace("'"," ").split(" ");
-    var motsVides = ["l","la","le","les","aux","d","de","du","des","un","une"];
+    var motsVides = ["l","la","le","les","aux","d","de","du","des","un","une","s","se"];
     while (value.length != 0) {
         if (motsVides.indexOf(value[0]) >= 0) {
             value.shift();

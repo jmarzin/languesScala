@@ -1,0 +1,10 @@
+@(fileName: String, result: (Int,Int,Int), file: String)(implicit session: play.api.mvc.Session, flash: Flash, request: RequestHeader)
+
+@import models.StringUtils._
+@main(Messages("Traitement d'un fichier")) {
+    <h1>Traitement du fichier @fileName</h1>
+    <p>@(result._1+" objet".pluralize(result._1)) mis-à-jour</p>
+    <p>@(result._2+" objet".pluralize(result._2)+" créé".pluralize(result._2))</p>
+    <p>@(result._3+" ligne".pluralize(result._3)+" ignorée".pluralize(result._3))</p>
+    <p>@file</p>
+}

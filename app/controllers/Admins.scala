@@ -6,11 +6,12 @@ import play.api.Play.current
 import play.api.data.Form
 import play.api.libs.json.{JsArray, Json}
 import scala.concurrent.duration._
-import play.api.data.Forms.{mapping, nonEmptyText}
+import play.api.data.Forms.{mapping, ignored, single, nonEmptyText}
 import play.api.i18n.Messages
 import play.api.libs.ws.WS
 import play.api.mvc.{Flash, Action, Controller}
 import scala.concurrent.Await
+import scala.io.Source
 
 /**
  * Created by jacques on 25/02/15.
@@ -137,5 +138,40 @@ object Admins extends Controller{
     } else {
       Ok("Vous n'êtes pas administrateur")
     }
+  }
+
+  def showUploadForm() = Action { implicit request =>
+    if (request.session.get("admin") == Some("true")) {
+      val dummyForm = Form(ignored("dummy"))
+      Ok(views.html.admins.uploadform(dummyForm))
+    } else {
+      Ok("Vous n'êtes pas administrateur")
+    }
+  }
+
+  def upload2() = Action(parse.multipartFormData) { implicit request =>
+    var resultat = (0,0,0)
+    val form = Form(single(
+      "fichier" -> ignored(request.body.file("fichier")).verifying("File missing", _.isDefined)
+    ))
+    form.bindFromRequest.fold(
+      formWithErrors => {
+        Ok(views.html.admins.uploadform(formWithErrors))
+      },
+      value => {
+        val fichier = Source.fromFile(value.get.ref.file).getLines().toList
+        fichier(0) match {
+          case "it;thèmes" => resultat = Theme.file_themes("it",fichier.tail)
+          case "it;mots" => resultat = Word.file_words("it",fichier.tail)
+          case "an;thèmes" => resultat = Theme.file_themes("an",fichier.tail)
+          case "an;mots" => resultat = Word.file_words("an",fichier.tail)
+          case "es;thèmes" => resultat = Theme.file_themes("es",fichier.tail)
+          case "es;mots" => resultat = Word.file_words("es",fichier.tail)
+          case "li;thèmes" => resultat = Theme.file_themes("li",fichier.tail)
+          case "li;mots" => resultat = Word.file_words("li",fichier.tail)
+        }
+        Ok(views.html.admins.file(value.get.filename, resultat, fichier.toString))
+      }
+    )
   }
 }

@@ -1,0 +1,9 @@
+@(form: Form[_])
+@import helper.twitterBootstrap._
+<h2>Chargement de fichier</h2>
+@helper.form(action = routes.Admins.upload2, 'enctype -> "multipart/form-data") {
+    @helper.inputFile(form("fichier"))
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Charger le fichier</button>
+    </div>
+}

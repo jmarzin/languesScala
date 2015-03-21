@@ -46,7 +46,11 @@
                 <li><a href="@routes.Words.list(session.get("codeLangue").get,1)">Mots</a></li>
                 <li><a href="@routes.Verbs.list(session.get("codeLangue").get)">Verbes</a></li>
                 <li><a href="@routes.FormsTypes.list(session.get("codeLangue").get)">Types de formes</a></li>
+                @if(session.get("admin") == Some("true")) {
+                    <li><a href="@routes.Admins.showUploadForm()">Charge fichier</a></li>
+                } else {
                 <li><a href="@routes.Admins.password">Administration</a></li>
+                }
             </ul>
         </div>
     </div>

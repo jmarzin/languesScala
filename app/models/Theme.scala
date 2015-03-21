@@ -15,7 +15,7 @@ case class Theme (
                  id: Long,
                  language_id: String,
                  number: Int,
-                 in_language: String,
+                 var in_language: String,
                  var last_update: String
                  ) extends KeyedEntity[Long]
 
@@ -37,9 +37,9 @@ object Theme {
     themesTable.insert(theme)
   }
 
-  def findByNumber(number: Int) = inTransaction {
+  def findByNumber(codeLangue: String, number: Int) = inTransaction {
     from(themesTable) ( t =>
-      where(t.number === number)
+      where(t.number === number and t.language_id === codeLangue)
         select(t)
     ).headOption
   }
@@ -79,5 +79,29 @@ object Theme {
       where(t.language_id === codeLangue)
         compute (nvl(max(t.last_update), ""))
     )
+  }
+  def file_themes(codeLangue: String, fichier: List[String]): (Int,Int,Int) = {
+    var nbUpdate = 0
+    var nbInsert = 0
+    var nbIgnored = 0
+    for (ligne <- fichier) {
+      val data = ligne.split(";")
+      if (data.size == 2 && data(0).matches("^\\d+$")) {
+        Theme.findByNumber(codeLangue, data(0).toInt) match {
+          case Some(theme) => {
+            theme.in_language = data(1)
+            Theme.update(theme)
+            nbUpdate += 1
+          }
+          case None => {
+            Theme.insert(Theme(0,codeLangue,data(0).toInt,data(1),""))
+            nbInsert += 1
+          }
+        }
+      } else {
+        nbIgnored += 1
+      }
+    }
+    return (nbUpdate, nbInsert, nbIgnored)
   }
 }

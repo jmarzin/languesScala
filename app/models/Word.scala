@@ -14,8 +14,8 @@ case class Word (
                language_id: String,
                theme_id: Long,
                in_french: String,
-               sort_word: String,
-               in_language: String,
+               var sort_word: String,
+               var in_language: String,
                var last_update: String
                ) extends KeyedEntity[Long]
 
@@ -58,6 +58,13 @@ object Word {
     ).toList
   }
 
+  def findByThemeIdAndInFrench(theme_id: Long ,francais: String) = inTransaction {
+    from(wordsTable) ( w =>
+      where(w.theme_id === theme_id and w.in_french === francais)
+      select(w)
+    ).headOption
+  }
+
   def remove(word: Word) = inTransaction {
     wordsTable.delete(word.id)
   }
@@ -81,5 +88,38 @@ object Word {
       where(w.language_id === codeLangue)
         compute (nvl(max(w.last_update), ""))
     )
+  }
+
+  def file_words(codeLangue: String, fichier: List[String]): (Int,Int,Int) = {
+    var nbUpdate = 0
+    var nbInsert = 0
+    var nbIgnored = 0
+    val liste_themes = Theme.findAll(codeLangue).map (t =>
+      (t.number, t.id)
+    ).toMap
+    for (ligne <- fichier) {
+      val data = ligne.split(";")
+      if (data.size == 4 && data(0).matches("^\\d+$")) {
+        liste_themes.get(data(0).toInt) match {
+          case Some(theme_id) => {
+            Word.findByThemeIdAndInFrench(theme_id, data(1)) match {
+              case Some(word) => {
+                word.in_language = data(3)
+                word.sort_word = data(2)
+                Word.update(word)
+                nbUpdate += 1
+              }
+              case None => {
+                Word.insert(Word(0,codeLangue,theme_id,data(1),data(2),data(3),""))
+                nbInsert += 1
+              }
+            }
+          }
+        }
+      } else {
+        nbIgnored += 1
+      }
+    }
+    return (nbUpdate,nbInsert,nbIgnored)
   }
 }

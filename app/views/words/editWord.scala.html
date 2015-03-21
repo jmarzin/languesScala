@@ -15,7 +15,13 @@
                 @helper.inputText(wordForm("language_id"))
                 @helper.inputText(wordForm("last_update"))
             </div>
-            @*TODO gestion de la liste des thèmes*@
+
+            @if(wordForm.hasGlobalErrors) {
+                @for(error <- wordForm.globalErrors) {
+                    <p>@error.message</p>
+                }
+            }
+
             @select(field = wordForm("theme_id"),
                 options = Seq("0"->"   Choisissez le thème").
                         ++(Theme.findAll(session.get("codeLangue").get).
