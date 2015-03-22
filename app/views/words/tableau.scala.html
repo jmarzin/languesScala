@@ -4,14 +4,16 @@
 @if(words.size!=0) {
     <table class="mots">
         <tr></tr>
+        <th class="theme">N°</th>
         <th class="in_french">En français</th>
         <th class="in_language">Traduction</th>
         <th class="theme">Thème</th>
         <th class="bouton"></th>
         <th class="bouton"></th>
         <th class="bouton"></th>
-        @for(word <- words) {
+        @for((word,index) <- words.zipWithIndex) {
             <tr></tr>
+            <td>@{index+1}</td>
             @if(word.in_french.length > 30){
                 <td>@(word.in_french.substring(0, 30)+"...")</td>
             } else {

@@ -24,7 +24,7 @@ object FormType {
   import Database.formsTypeTable
 
   def allQ(codeLangue: String): Query[FormType] = from(formsTypeTable) {
-    formType => where(formType.language_id === codeLangue) select(formType) orderBy("%02d".format(formType.number) asc)
+    formType => where(formType.language_id === codeLangue) select formType orderBy("%02d".format(formType.number) asc)
   }
 
   def findAll(codeLangue: String): Iterable[FormType] = inTransaction {
@@ -40,14 +40,14 @@ object FormType {
   def findByNumber(number: Int) = inTransaction {
     from(formsTypeTable) ( ft =>
       where(ft.number === number)
-        select(ft)
+        select ft
     ).headOption
   }
 
   def findById(id: Long) = inTransaction {
     from(formsTypeTable) ( ft =>
       where(ft.id === id)
-        select(ft)
+        select ft
     ).headOption
   }
 
@@ -67,13 +67,13 @@ object FormType {
   def lastNumber(codeLangue: String): Int = inTransaction {
     from(formsTypeTable)(ft =>
       where(ft.language_id === codeLangue)
-        compute (nvl(max(ft.number), 0))
+        compute nvl(max(ft.number), 0)
     )
   }
   def maxUpdate(codeLangue: String): String = inTransaction {
     from(formsTypeTable)(ft =>
       where(ft.language_id === codeLangue)
-        compute (nvl(max(ft.last_update), ""))
+        compute nvl(max(ft.last_update), "")
     )
   }
 }

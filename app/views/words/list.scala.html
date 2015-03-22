@@ -8,7 +8,7 @@
 @main(Messages("Liste des mots (page "+page+")")) {
     <h1>Liste des mots</h1>
     @helper.form(action = routes.Words.list(request.session.get("codeLangue").get, page)) {
-        <input id="recherche" value="@recherche" name="recherche" type="text" autofocus/>
+    <label for="recherche"></label> <input id="recherche" value="@recherche" name="recherche" type="text" autofocus/>
         <input type="submit" value="Recherche" />
     }
     <p>

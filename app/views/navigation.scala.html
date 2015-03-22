@@ -49,7 +49,7 @@
                 @if(session.get("admin") == Some("true")) {
                     <li><a href="@routes.Admins.showUploadForm()">Charge fichier</a></li>
                 } else {
-                <li><a href="@routes.Admins.password">Administration</a></li>
+                <li><a href="@routes.Admins.password()">Administration</a></li>
                 }
             </ul>
         </div>

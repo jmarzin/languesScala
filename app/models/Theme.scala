@@ -24,7 +24,7 @@ object Theme {
   import Database.themesTable
 
   def allQ(codeLangue: String): Query[Theme] = from(themesTable) {
-    theme => where(theme.language_id === codeLangue) select(theme) orderBy("%02d".format(theme.number) asc)
+    theme => where(theme.language_id === codeLangue) select theme orderBy("%02d".format(theme.number) asc)
   }
 
   def findAll(codeLangue: String): Iterable[Theme] = inTransaction {
@@ -40,14 +40,14 @@ object Theme {
   def findByNumber(codeLangue: String, number: Int) = inTransaction {
     from(themesTable) ( t =>
       where(t.number === number and t.language_id === codeLangue)
-        select(t)
+        select t
     ).headOption
   }
 
   def findById(id: Long) = inTransaction {
     from(themesTable) ( t =>
       where(t.id === id)
-        select(t)
+        select t
     ).headOption
   }
 
@@ -71,13 +71,13 @@ object Theme {
   def lastNumber(codeLangue: String): Int = inTransaction {
     from(themesTable)(t =>
       where(t.language_id === codeLangue)
-        compute (nvl(max(t.number), 0))
+        compute nvl(max(t.number), 0)
     )
   }
   def maxUpdate(codeLangue: String): String = inTransaction {
     from(themesTable)(t =>
       where(t.language_id === codeLangue)
-        compute (nvl(max(t.last_update), ""))
+        compute nvl(max(t.last_update), "")
     )
   }
   def file_themes(codeLangue: String, fichier: List[String]): (Int,Int,Int) = {
@@ -88,20 +88,18 @@ object Theme {
       val data = ligne.split(";")
       if (data.size == 2 && data(0).matches("^\\d+$")) {
         Theme.findByNumber(codeLangue, data(0).toInt) match {
-          case Some(theme) => {
+          case Some(theme) =>
             theme.in_language = data(1)
             Theme.update(theme)
             nbUpdate += 1
-          }
-          case None => {
+          case None =>
             Theme.insert(Theme(0,codeLangue,data(0).toInt,data(1),""))
             nbInsert += 1
-          }
         }
       } else {
         nbIgnored += 1
       }
     }
-    return (nbUpdate, nbInsert, nbIgnored)
+    (nbUpdate, nbInsert, nbIgnored)
   }
 }

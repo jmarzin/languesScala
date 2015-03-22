@@ -22,7 +22,7 @@ object Verb {
   import Database.verbsTable
 
   def allQ(codeLangue: String): Query[Verb] = from(verbsTable) {
-    verb => where(verb.language_id === codeLangue) select(verb) orderBy(verb.in_language asc)
+    verb => where(verb.language_id === codeLangue) select verb orderBy(verb.in_language asc)
   }
 
   def findAll(codeLangue: String): Iterable[Verb] = inTransaction {
@@ -38,7 +38,7 @@ object Verb {
   def findById(id: Long) = inTransaction {
     from(verbsTable) ( t =>
       where(t.id === id)
-        select(t)
+        select t
     ).headOption
   }
 
@@ -63,7 +63,7 @@ object Verb {
   def maxUpdate(codeLangue: String): String = inTransaction {
     from(verbsTable)(v =>
       where(v.language_id === codeLangue)
-        compute (nvl(max(v.last_update), ""))
+        compute nvl(max(v.last_update), "")
     )
   }
 }

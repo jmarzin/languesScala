@@ -24,7 +24,7 @@ object Word {
   import Database.wordsTable
 
   def allQ(codeLangue: String): Query[Word] = from(wordsTable) {
-    word => where(word.language_id === codeLangue) select(word) orderBy(word.sort_word, word.in_french asc)
+    word => where(word.language_id === codeLangue) select word orderBy(word.sort_word, word.in_french asc)
   }
   def findAll(codeLangue: String): Iterable[Word] = inTransaction {
     allQ(codeLangue).toList
@@ -38,14 +38,14 @@ object Word {
   def findById(id: Long) = inTransaction {
     from(wordsTable) ( w =>
       where(w.id === id)
-        select(w)
+        select w
     ).headOption
   }
 
   def findByThemeId(themeId: Long): Iterable[Word] = inTransaction {
     from(wordsTable) ( w =>
       where(w.theme_id === themeId)
-        select(w)
+        select w
         orderBy(w.sort_word, w.in_french asc)
     ).toList
   }
@@ -53,7 +53,7 @@ object Word {
   def findByText(codeLangue: String, texte: String): Iterable[Word] = inTransaction {
     from(wordsTable) ( w =>
       where((w.in_french like texte) or (w.in_language like texte) or (w.sort_word like texte))
-        select(w)
+        select w
         orderBy(w.sort_word, w.in_french asc)
     ).toList
   }
@@ -61,7 +61,7 @@ object Word {
   def findByThemeIdAndInFrench(theme_id: Long ,francais: String) = inTransaction {
     from(wordsTable) ( w =>
       where(w.theme_id === theme_id and w.in_french === francais)
-      select(w)
+      select w
     ).headOption
   }
 
@@ -86,7 +86,7 @@ object Word {
   def maxUpdate(codeLangue: String): String = inTransaction {
     from(wordsTable)(w =>
       where(w.language_id === codeLangue)
-        compute (nvl(max(w.last_update), ""))
+        compute nvl(max(w.last_update), "")
     )
   }
 
@@ -101,25 +101,22 @@ object Word {
       val data = ligne.split(";")
       if (data.size == 4 && data(0).matches("^\\d+$")) {
         liste_themes.get(data(0).toInt) match {
-          case Some(theme_id) => {
+          case Some(theme_id) =>
             Word.findByThemeIdAndInFrench(theme_id, data(1)) match {
-              case Some(word) => {
+              case Some(word) =>
                 word.in_language = data(3)
                 word.sort_word = data(2)
                 Word.update(word)
                 nbUpdate += 1
-              }
-              case None => {
+              case None =>
                 Word.insert(Word(0,codeLangue,theme_id,data(1),data(2),data(3),""))
                 nbInsert += 1
-              }
             }
-          }
         }
       } else {
         nbIgnored += 1
       }
     }
-    return (nbUpdate,nbInsert,nbIgnored)
+    (nbUpdate,nbInsert,nbIgnored)
   }
 }

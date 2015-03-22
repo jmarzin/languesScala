@@ -60,8 +60,8 @@ object Verbs extends Controller{
       } else if (page < 1) {
         pageCourante = 1
       }
-      val indicPrec = (pageCourante > 1)
-      val indicSuiv = (pageCourante < maxpage)
+      val indicPrec = pageCourante > 1
+      val indicSuiv = pageCourante < maxpage
       Ok(views.html.verbs.list(
         liste.dropRight(math.max(0, liste.size - pageCourante * 15)).drop((pageCourante - 1) * 15),
         indicPrec, indicSuiv, pageCourante))
@@ -102,7 +102,7 @@ object Verbs extends Controller{
             ))
           )
         }
-        val successMessage = ("success" -> Messages("verbe.new.success", newVerb._1.id))
+        val successMessage = "success" -> Messages("verbe.new.success", newVerb._1.id)
         Redirect(routes.Verbs.show(newVerb._1.id)).flashing(successMessage)
       }
     )
@@ -135,7 +135,7 @@ object Verbs extends Controller{
             VForm.update(n._1)
           )
         }
-        val successMessage = ("success" -> Messages("theme.update.success", verb._1.id))
+        val successMessage = "success" -> Messages("theme.update.success", verb._1.id)
         Redirect(routes.Verbs.show(verb._1.id)).flashing(successMessage)
       }
     )

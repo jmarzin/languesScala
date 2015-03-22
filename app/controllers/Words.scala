@@ -22,7 +22,7 @@ object Words extends Controller {
       "in_language" -> nonEmptyText,
       "last_update" -> text
     )(Word.apply)(Word.unapply) verifying("Le mot existe déjà !", fields => fields match {
-      case word => Word.findByThemeIdAndInFrench(word.theme_id,word.in_french).isEmpty
+      case word => word.id > 0 || Word.findByThemeIdAndInFrench(word.theme_id,word.in_french).isEmpty
     })
   )
 
@@ -43,8 +43,8 @@ object Words extends Controller {
       } else if (page < 1) {
         pageCourante = 1
       }
-      val indicPrec = (pageCourante > 1)
-      val indicSuiv = (pageCourante < maxpage)
+      val indicPrec = pageCourante > 1
+      val indicSuiv = pageCourante < maxpage
       Ok(views.html.words.list(
         liste.dropRight(math.max(0, liste.size - pageCourante * 15)).drop((pageCourante - 1) * 15),
         indicPrec, indicSuiv, pageCourante, recherche))
@@ -79,7 +79,7 @@ object Words extends Controller {
       },
       success = { newWord =>
         Word.insert(newWord)
-        val successMessage = ("success" -> Messages("theme.new.success", newWord.id))
+        val successMessage = "success" -> Messages("theme.new.success", newWord.id)
         Redirect(routes.Words.show(newWord.id))
           .flashing(successMessage)
           .withSession(request.session - "theme_id" + ("theme_id" -> newWord.theme_id.toString))
@@ -108,7 +108,7 @@ object Words extends Controller {
       },
       success = { word =>
         Word.update(word)
-        val successMessage = ("success" -> Messages("word.update.success", word.id))
+        val successMessage = "success" -> Messages("word.update.success", word.id)
         Redirect(routes.Words.show(word.id)).flashing(successMessage)
       }
     )

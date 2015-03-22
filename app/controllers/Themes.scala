@@ -35,8 +35,8 @@ object Themes extends Controller {
       } else if (page < 1) {
         pageCourante = 1
       }
-      val indicPrec = (pageCourante > 1)
-      val indicSuiv = (pageCourante < maxpage)
+      val indicPrec = pageCourante > 1
+      val indicSuiv = pageCourante < maxpage
       Ok(views.html.themes.list(
         liste.dropRight(math.max(0, liste.size - pageCourante * 15)).drop((pageCourante - 1) * 15),
         indicPrec, indicSuiv, pageCourante))
@@ -75,7 +75,7 @@ object Themes extends Controller {
       },
       success = { newTheme =>
         Theme.insert(newTheme)
-        val successMessage = ("success" -> Messages("theme.new.success", newTheme.id))
+        val successMessage = "success" -> Messages("theme.new.success", newTheme.id)
         Redirect(routes.Themes.show(newTheme.id)).flashing(successMessage)
       }
     )
@@ -102,7 +102,7 @@ object Themes extends Controller {
       },
       success = { theme =>
         Theme.update(theme)
-        val successMessage = ("success" -> Messages("theme.update.success", theme.id))
+        val successMessage = "success" -> Messages("theme.update.success", theme.id)
         Redirect(routes.Themes.show(theme.id)).flashing(successMessage)
       }
     )

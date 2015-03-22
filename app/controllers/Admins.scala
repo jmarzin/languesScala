@@ -61,8 +61,8 @@ object Admins extends Controller{
 
   def chargeWords(codeLangue: String) = Action {implicit request =>
     if (request.session.get("admin") == Some("true")) {
-      val responsePromiseT = WS.url("http://langues.jmarzin.fr/"+langue(codeLangue)+"/api/v2/categories")
-        .get
+      val responsePromiseT = WS.url("http://langues.jmarzin.fr/" + langue(codeLangue) + "/api/v2/categories")
+        .get()
       val responseT = Await.result(responsePromiseT, 10 seconds)
       val bodyT = Json.parse(responseT.body).as[List[JsArray]]
       Word.removeAll(codeLangue)
@@ -78,8 +78,8 @@ object Admins extends Controller{
         tab(0).toLong -> theme.id
       }).toMap
 
-      val responsePromiseW = WS.url("http://langues.jmarzin.fr/"+langue(codeLangue)+"/api/v2/mots")
-        .get
+      val responsePromiseW = WS.url("http://langues.jmarzin.fr/" + langue(codeLangue) + "/api/v2/mots")
+        .get()
       val responseW = Await.result(responsePromiseW, 10 seconds)
       val bodyW = Json.parse(responseW.body).as[List[JsArray]]
       bodyW.foreach(w => {
@@ -100,8 +100,8 @@ object Admins extends Controller{
 
   def chargeVerbs(codeLangue: String) = Action { implicit request =>
     if (request.session.get("admin") == Some("true")) {
-      val responsePromiseV = WS.url("http://langues.jmarzin.fr/"+langue(codeLangue)+"/api/v2/verbes")
-        .get
+      val responsePromiseV = WS.url("http://langues.jmarzin.fr/" + langue(codeLangue) + "/api/v2/verbes")
+        .get()
       val responseV = Await.result(responsePromiseV, 10 seconds)
       val bodyV = Json.parse(responseV.body).as[List[JsArray]]
       VForm.removeAll(codeLangue)
@@ -121,8 +121,8 @@ object Admins extends Controller{
         ft.number -> ft.id
       }).toMap
 
-      val responsePromiseF = WS.url("http://langues.jmarzin.fr/"+langue(codeLangue)+"/api/v2/formes")
-        .get
+      val responsePromiseF = WS.url("http://langues.jmarzin.fr/" + langue(codeLangue) + "/api/v2/formes")
+        .get()
       val responseF = Await.result(responsePromiseF, 10 seconds)
       val bodyF = Json.parse(responseF.body).as[List[JsArray]]
       bodyF.foreach(f => {
@@ -160,7 +160,7 @@ object Admins extends Controller{
       },
       value => {
         val fichier = Source.fromFile(value.get.ref.file).getLines().toList
-        fichier(0) match {
+        fichier.head match {
           case "it;thèmes" => resultat = Theme.file_themes("it",fichier.tail)
           case "it;mots" => resultat = Word.file_words("it",fichier.tail)
           case "an;thèmes" => resultat = Theme.file_themes("an",fichier.tail)
@@ -170,7 +170,7 @@ object Admins extends Controller{
           case "li;thèmes" => resultat = Theme.file_themes("li",fichier.tail)
           case "li;mots" => resultat = Word.file_words("li",fichier.tail)
         }
-        Ok(views.html.admins.file(value.get.filename, resultat, fichier.toString))
+        Ok(views.html.admins.file(value.get.filename, resultat, fichier.toString()))
       }
     )
   }

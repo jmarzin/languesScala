@@ -24,11 +24,11 @@ object VForm {
   import Database.formsTypeTable
 
   def allQ(codeLangue: String): Query[VForm] = from(formsTable) {
-    vForm => where(vForm.language_id === codeLangue) select(vForm)
+    vForm => where(vForm.language_id === codeLangue) select vForm
   }
 
   def allQByVerbId(verbId: Long): Query[VForm] = from(formsTable) {
-    vForm => where(vForm.verb_id === verbId) select(vForm)
+    vForm => where(vForm.verb_id === verbId) select vForm
   }
 
   def findAll(codeLangue: String): Iterable[VForm] = inTransaction {
@@ -44,7 +44,7 @@ object VForm {
   def findByVerb(verbe_id: Long): List[(VForm,FormType)] = inTransaction {
     from(formsTable, formsTypeTable)((f, ft) =>
       where(f.verb_id === verbe_id and f.form_type_id === ft.id)
-      select(Tuple2(f,ft))
+      select Tuple2(f, ft)
       orderBy(ft.number asc)
     ).toList
   }
@@ -52,7 +52,7 @@ object VForm {
   def findById(id: Long) = inTransaction {
     from(formsTable) ( f =>
       where(f.id === id)
-        select(f)
+        select f
     ).headOption
   }
 
@@ -81,7 +81,7 @@ object VForm {
   def maxUpdate(codeLangue: String): String = inTransaction {
     from(formsTable)(f =>
       where(f.language_id === codeLangue)
-        compute (nvl(max(f.last_update), ""))
+        compute nvl(max(f.last_update), "")
     )
   }
 }

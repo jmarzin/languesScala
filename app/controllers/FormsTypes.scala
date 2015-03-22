@@ -37,8 +37,8 @@ object FormsTypes extends Controller {
       } else if (page < 1) {
         pageCourante = 1
       }
-      val indicPrec = (pageCourante > 1)
-      val indicSuiv = (pageCourante < maxpage)
+      val indicPrec = pageCourante > 1
+      val indicSuiv = pageCourante < maxpage
       Ok(views.html.formsTypes.list(
         liste.dropRight(math.max(0, liste.size - pageCourante * 15)).drop((pageCourante - 1) * 15),
         indicPrec, indicSuiv, pageCourante))
@@ -70,7 +70,7 @@ object FormsTypes extends Controller {
       },
       success = { newFormType =>
         FormType.insert(newFormType)
-        val successMessage = ("success" -> Messages("formType.new.success", newFormType.id))
+        val successMessage = "success" -> Messages("formType.new.success", newFormType.id)
         Redirect(routes.FormsTypes.show(newFormType.id)).flashing(successMessage)
       }
     )
@@ -97,7 +97,7 @@ object FormsTypes extends Controller {
       },
       success = { formType =>
         FormType.update(formType)
-        val successMessage = ("success" -> Messages("formType.update.success", formType.id))
+        val successMessage = "success" -> Messages("formType.update.success", formType.id)
         Redirect(routes.FormsTypes.show(formType.id)).flashing(successMessage)
       }
     )
