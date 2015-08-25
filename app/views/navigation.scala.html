@@ -33,12 +33,20 @@
                                 <a tabindex="-1"
                                 href="@routes.Themes.changeLanguage("espagnol")">Espagnol</a></li>
                             @if(langue.get=="lingvo internacia") {
-                                <li >hidden
+                                <li hidden>
                             } else {
                                 <li>
                             }
                                 <a tabindex="-1"
                                 href="@routes.Themes.changeLanguage("lingvo internacia")">Espéranto</a></li>
+                            @if(langue.get=="occitan") {
+                                <li hidden>
+                            } else {
+                                <li>
+                            }
+                                <a tabindex="-1"
+                                href="@routes.Themes.changeLanguage("occitan")">Occitan</a></li>
+
                         </ul>
                     </div>
                 </li>
