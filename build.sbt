@@ -1,8 +1,8 @@
-name := "languesScala"
+name := "langues"
 
 version := "1.0"
 
-lazy val `languesScala` = (project in file(".")).enablePlugins(PlayScala)
+lazy val `langues` = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.1"
 
