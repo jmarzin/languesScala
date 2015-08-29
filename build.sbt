@@ -1,4 +1,4 @@
-name := "langues"
+name := "languesScala"
 
 version := "1.0"
 
