@@ -17,6 +17,7 @@ object Words extends Controller {
       "id" -> longNumber,
       "language_id" -> text,
       "theme_id" -> longNumber(min = 1L),
+      "language_level" -> nonEmptyText,
       "in_french" -> nonEmptyText,
       "sort_word" -> nonEmptyText,
       "in_language" -> nonEmptyText,
@@ -59,6 +60,7 @@ object Words extends Controller {
       val newWord = Word(0,
         codeLangue,
         request.session.get("theme_id").getOrElse("0").toLong,
+        request.session.get("language_level").getOrElse("1"),
         "",
         "",
         "",
@@ -82,7 +84,8 @@ object Words extends Controller {
         val successMessage = "success" -> Messages("theme.new.success", newWord.id)
         Redirect(routes.Words.show(newWord.id))
           .flashing(successMessage)
-          .withSession(request.session - "theme_id" + ("theme_id" -> newWord.theme_id.toString))
+          .withSession(request.session - "theme_id" + ("theme_id" -> newWord.theme_id.toString)
+                                       - "language_level" + ("language_level" -> newWord.language_level))
       }
     )
   }

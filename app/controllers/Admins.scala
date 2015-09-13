@@ -88,6 +88,7 @@ object Admins extends Controller{
         Word.insert(Word(0,
           codeLangue,
           listeThemes(tabW(1).toLong),
+          "1",
           tabW(2).substring(1, tabW(2).length - 1),
           tabW(3).substring(1, tabW(3).length - 1),
           tabW(4).substring(1, tabW(4).length - 1),

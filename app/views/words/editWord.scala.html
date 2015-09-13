@@ -27,6 +27,7 @@
                         ++(Theme.findAll(session.get("codeLangue").get).
                             map(t => (t.id.toString, "%02d".format(t.number)+" "+t.in_language))
                             .toSeq))
+            @helper.inputText(wordForm("language_level"))
             @helper.inputText(wordForm("in_french"),
                 'onchange -> "constructSortWord()",
                 'class -> "in_french",

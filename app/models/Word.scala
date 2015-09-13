@@ -13,6 +13,7 @@ case class Word (
                id: Long,
                language_id: String,
                theme_id: Long,
+               language_level: String,
                in_french: String,
                var sort_word: String,
                var in_language: String,
@@ -109,7 +110,7 @@ object Word {
                 Word.update(word)
                 nbUpdate += 1
               case None =>
-                Word.insert(Word(0,codeLangue,theme_id,data(1),data(2),data(3),""))
+                Word.insert(Word(0,codeLangue,theme_id,"1",data(1),data(2),data(3),""))
                 nbInsert += 1
             }
         }
