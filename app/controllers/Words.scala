@@ -136,4 +136,15 @@ object Words extends Controller {
         JsString(t.in_language)))
     Ok(Json.toJson(listWords))
   }
+
+  def apiV2Words(codeL: String) = Action {
+    val listWords = Word.findAll(codeL)
+      .map(t => List(JsNumber(t.id),
+      JsNumber(t.theme_id),
+      JsString(t.in_french),
+      JsString(t.sort_word),
+      JsString(t.in_language),
+      JsString(t.language_level)))
+    Ok(Json.toJson(listWords))
+  }
 }

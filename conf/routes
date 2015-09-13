@@ -32,6 +32,7 @@ GET         /mots/$codeL<\D\D>/list/:page            controllers.Words.list(code
 GET         /mots/$codeL<\D\D>/new                   controllers.Words.newWord(codeL: String)
 GET         /$codeL<\D\D>/api/v1/date_mots           controllers.Words.apiV1DateWords(codeL: String)
 GET         /$codeL<\D\D>/api/v1/mots                controllers.Words.apiV1Words(codeL: String)
+GET         /$codeL<\D\D>/api/v2/mots                controllers.Words.apiV2Words(codeL: String)
 POST        /mots/$codeL<\D\D>                       controllers.Words.save(codeL: String)
 GET         /mots/:id                                controllers.Words.show(id: Long)
 POST        /mots/:id                                controllers.Words.update(id: Long)
