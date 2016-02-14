@@ -35,6 +35,7 @@
             @helper.inputText(wordForm("sort_word"),
                 'class -> "sort_word")
             @helper.inputText(wordForm("in_language"))
+            @helper.inputText(wordForm("pronunciation"))
         </fieldset>
         <p><input type="submit" class="btn primary" value='@id.map(_=> Messages("words.edit.submit")).getOrElse(Messages("words.new.submit"))'></p>
     }

@@ -21,6 +21,7 @@ object Words extends Controller {
       "in_french" -> nonEmptyText,
       "sort_word" -> nonEmptyText,
       "in_language" -> nonEmptyText,
+      "pronunciation" -> text,
       "last_update" -> text
     )(Word.apply)(Word.unapply) verifying("Le mot existe déjà !", fields => fields match {
       case word => word.id > 0 || Word.findByThemeIdAndInFrench(word.theme_id,word.in_french).isEmpty
@@ -61,6 +62,7 @@ object Words extends Controller {
         codeLangue,
         request.session.get("theme_id").getOrElse("0").toLong,
         request.session.get("language_level").getOrElse("1"),
+        "",
         "",
         "",
         "",

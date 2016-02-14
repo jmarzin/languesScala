@@ -32,6 +32,7 @@ object Admins extends Controller{
     case "es" => "espagnol"
     case "an" => "anglais"
     case "oc" => "occitan"
+    case "po" => "portugais"
     case _ => "lingvo"
   }
 
@@ -92,6 +93,7 @@ object Admins extends Controller{
           tabW(2).substring(1, tabW(2).length - 1),
           tabW(3).substring(1, tabW(3).length - 1),
           tabW(4).substring(1, tabW(4).length - 1),
+          tabW(5).substring(1, tabW(5).length - 1),
           ""))
       })
       Ok(bodyW.toString())
@@ -171,8 +173,10 @@ object Admins extends Controller{
           case "es;mots" => resultat = Word.file_words("es",fichier.tail)
           case "li;thèmes" => resultat = Theme.file_themes("li",fichier.tail)
           case "li;mots" => resultat = Word.file_words("li",fichier.tail)
-          case "oc;thèmes" => resultat = Word.file_words("oc",fichier.tail)
+          case "oc;thèmes" => resultat = Theme.file_themes("oc",fichier.tail)
           case "oc;mots" => resultat = Word.file_words("oc",fichier.tail)
+          case "po;thèmes" => resultat = Theme.file_themes("po",fichier.tail)
+          case "po;mots" => resultat = Word.file_words("po",fichier.tail)
         }
         Ok(views.html.admins.file(value.get.filename, resultat, fichier.toString()))
       }
