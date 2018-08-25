@@ -54,7 +54,7 @@ object Word {
 
   def findByText(codeLangue: String, texte: String): Iterable[Word] = inTransaction {
     from(wordsTable) ( w =>
-      where((w.in_french like texte) or (w.in_language like texte) or (w.sort_word like texte))
+      where(w.language_id === codeLangue and ((w.in_french like texte) or (w.in_language like texte) or (w.sort_word like texte)))
         select w
         orderBy(w.sort_word, w.in_french asc)
     ).toList

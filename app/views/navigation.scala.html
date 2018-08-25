@@ -46,6 +46,13 @@
                             }
                                 <a tabindex="-1"
                                 href="@routes.Themes.changeLanguage("occitan")">Occitan</a></li>
+                            @if(langue.get=="allemand") {
+                                <li hidden>
+                            } else {
+                                <li>
+                            }
+                                <a tabindex="-1"
+                                href="@routes.Themes.changeLanguage("allemand")">Allemand</a></li>
                             @if(langue.get=="portugais") {
                                 <li hidden>
                             } else {

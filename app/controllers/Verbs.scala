@@ -166,7 +166,7 @@ object Verbs extends Controller{
 
   def apiV1Forms(codeL: String) = Action {
     val listForms = VForm.findAll(codeL)
-      .map(f => List(JsNumber(f.id),JsNumber(f.verb_id),JsNumber(f.form_type_id),JsString(f.in_language)))
+      .map(f => List(JsNumber(f.id),JsNumber(f.verb_id),JsNumber(FormType.findById(f.form_type_id).get.number),JsString(f.in_language)))
     Ok(Json.toJson(listForms))
   }
 }
