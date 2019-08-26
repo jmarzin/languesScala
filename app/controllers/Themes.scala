@@ -19,7 +19,8 @@ object Themes extends Controller {
       "language_id" -> text,
       "number" -> number(min = 1),
       "in_language" -> nonEmptyText,
-      "last_update" -> text
+      "last_update" -> text,
+      "supp" -> text
     )(Theme.apply)(Theme.unapply)
   )
 
@@ -59,7 +60,8 @@ object Themes extends Controller {
         codeLangue,
         Theme.lastNumber(codeLangue) + 1,
         "",
-        ""
+        "",
+        "f"
       )
       this.themeForm.fill(newTheme)
     }

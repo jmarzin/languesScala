@@ -12,6 +12,7 @@
                 @helper.inputText(verbForm("verbe.id"))
                 @helper.inputText(verbForm("verbe.language_id"))
                 @helper.inputText(verbForm("verbe.last_update"))
+                @helper.inputText(verbForm("verbe.supp"))
             </div>
             @helper.inputText(verbForm("verbe.in_language"),'autofocus -> "true")
             @helper.repeat(verbForm("formes")) { tagField =>
@@ -21,11 +22,13 @@
                         @helper.inputText(tagField("forme.verb_id"))
                         @helper.inputText(tagField("forme.form_type_id"))
                         @helper.inputText(tagField("forme.last_update"))
+                        @helper.inputText(tagField("forme.supp"))
                         @helper.inputText(tagField("type.id"))
                         @helper.inputText(tagField("type.language_id"))
                         @helper.inputText(tagField("type.number"))
                         @helper.inputText(tagField("type.in_language"))
                         @helper.inputText(tagField("type.last_update"))
+                        @helper.inputText(tagField("type.supp"))
                     </div>
                 @helper.inputText(tagField("forme.in_language"), '_label -> tagField("type.in_language").value.get)
 

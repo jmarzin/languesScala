@@ -10,7 +10,11 @@ libraryDependencies ++= Seq( jdbc , anorm , cache , ws )
 
 libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
 
-libraryDependencies += "org.postgresql" % "postgresql" % "9.3-1100-jdbc4"
+//libraryDependencies += "org.postgresql" % "postgresql" % "9.3-1100-jdbc4"
+// https://mvnrepository.com/artifact/org.postgresql/postgresql
+libraryDependencies += "org.postgresql" % "postgresql" % "42.2.6"
+
+
 
 libraryDependencies += "org.squeryl" %% "squeryl" % "0.9.5-7"
 

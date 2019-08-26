@@ -21,7 +21,8 @@ object FormsTypes extends Controller {
       "language_id" -> text,
       "number" -> number(min = 1),
       "in_french" -> nonEmptyText,
-      "last_update" -> text
+      "last_update" -> text,
+      "supp" -> text
     )(FormType.apply)(FormType.unapply)
   )
 
@@ -54,7 +55,8 @@ object FormsTypes extends Controller {
         codeLangue,
         FormType.lastNumber(codeLangue) + 1,
         "",
-        ""
+        "",
+        "f"
       )
       this.formTypeForm.fill(newFormType)
     }

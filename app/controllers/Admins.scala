@@ -76,7 +76,8 @@ object Admins extends Controller{
           codeLangue,
           tab(1).toInt,
           tab(2).substring(1, tab(2).length - 1),
-          "")
+          "",
+          "f")
         Theme.insert(theme)
         tab(0).toLong -> theme.id
       }).toMap
@@ -95,7 +96,8 @@ object Admins extends Controller{
           tabW(3).substring(1, tabW(3).length - 1),
           tabW(4).substring(1, tabW(4).length - 1),
           tabW(5).substring(1, tabW(5).length - 1),
-          ""))
+          "",
+          "f"))
       })
       Ok(bodyW.toString())
     } else {
@@ -116,7 +118,8 @@ object Admins extends Controller{
         val verbe = Verb(0,
           codeLangue,
           tab(1).substring(1, tab(1).length - 1),
-          ""
+          "",
+          "f"
         )
         Verb.insert(verbe)
         tab(0).toLong -> verbe.id
@@ -137,7 +140,8 @@ object Admins extends Controller{
           listeVerbes(tabF(1).toLong),
           listeTypesFormes(tabF(2).toInt),
           tabF(3).substring(1, tabF(3).length - 1),
-          ""))
+          "",
+          "f"))
       })
       Ok(bodyF.toString())
     } else {
@@ -178,8 +182,8 @@ object Admins extends Controller{
           case "oc;mots" => resultat = Word.file_words("oc",fichier.tail)
           case "po;thèmes" => resultat = Theme.file_themes("po",fichier.tail)
           case "po;mots" => resultat = Word.file_words("po",fichier.tail)
-          case "al;thèmes" => resultat = Theme.file_themes("po",fichier.tail)
-          case "al;mots" => resultat = Word.file_words("po",fichier.tail)
+          case "al;thèmes" => resultat = Theme.file_themes("al",fichier.tail)
+          case "al;mots" => resultat = Word.file_words("al",fichier.tail)
         }
         Ok(views.html.admins.file(value.get.filename, resultat, fichier.toString()))
       }

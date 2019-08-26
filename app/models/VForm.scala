@@ -1,9 +1,11 @@
 package models
 
+import models.Database.themesTable
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.{DateTimeZone, DateTime}
+import org.joda.time.{DateTime, DateTimeZone}
 import org.squeryl.PrimitiveTypeMode._
-import org.squeryl.{Query, KeyedEntity}
+import org.squeryl.{KeyedEntity, Query}
+
 import scala.collection.Iterable
 
 /**
@@ -15,7 +17,8 @@ case class VForm(
                verb_id: Long,
                form_type_id: Long,
                in_language: String,
-               var last_update: String
+               var last_update: String,
+               var supp: String
                ) extends KeyedEntity[Long]
 
 object VForm {
@@ -24,11 +27,11 @@ object VForm {
   import Database.formsTypeTable
 
   def allQ(codeLangue: String): Query[VForm] = from(formsTable) {
-    vForm => where(vForm.language_id === codeLangue) select vForm
+    vForm => where(vForm.language_id === codeLangue and vForm.supp === "f") select vForm
   }
 
   def allQByVerbId(verbId: Long): Query[VForm] = from(formsTable) {
-    vForm => where(vForm.verb_id === verbId) select vForm
+    vForm => where(vForm.verb_id === verbId and vForm.supp === "f") select vForm
   }
 
   def findAll(codeLangue: String): Iterable[VForm] = inTransaction {
@@ -43,7 +46,7 @@ object VForm {
 
   def findByVerb(verbe_id: Long): List[(VForm,FormType)] = inTransaction {
     from(formsTable, formsTypeTable)((f, ft) =>
-      where(f.verb_id === verbe_id and f.form_type_id === ft.id)
+      where(f.verb_id === verbe_id and f.form_type_id === ft.id and f.supp === "f")
       select Tuple2(f, ft)
       orderBy(ft.number asc)
     ).toList
@@ -51,25 +54,39 @@ object VForm {
 
   def findById(id: Long) = inTransaction {
     from(formsTable) ( f =>
-      where(f.id === id)
+      where(f.id === id and f.supp === "f")
         select f
     ).headOption
   }
 
   def remove(vForm: VForm) = inTransaction {
-    formsTable.delete(vForm.id)
+    vForm.last_update =
+      DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS"))
+    vForm.supp = "t"
+    formsTable.update(vForm)
   }
 
   def removeById(id: Long) = inTransaction {
-    formsTable.delete(id)
+    formsTable.update(f =>
+      where(f.id === id)
+        set(f.supp := "t",
+        f.last_update  := DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")))
+    )
   }
 
   def removeAll(codeLangue: String) = inTransaction {
-    formsTable.delete(allQ(codeLangue))
+    formsTable.update(f =>
+      where(f.language_id === codeLangue)
+        set(f.supp := "t",
+        f.last_update  := DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")))
+    )
   }
 
   def removeByVerb(verbId: Long) = inTransaction {
-    formsTable.delete(allQByVerbId(verbId))
+    formsTable.update(f =>
+      where(f.verb_id === verbId)
+      set(f.supp := "t",
+      f.last_update  := DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS"))))
   }
 
   def update(vForm: VForm) = inTransaction {

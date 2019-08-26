@@ -22,7 +22,8 @@ object Words extends Controller {
       "sort_word" -> nonEmptyText,
       "in_language" -> nonEmptyText,
       "pronunciation" -> text,
-      "last_update" -> text
+      "last_update" -> text,
+      "supp" -> text
     )(Word.apply)(Word.unapply) verifying("Le mot existe déjà !", fields => fields match {
       case word => word.id > 0 || Word.findByThemeIdAndInFrench(word.theme_id,word.in_french).isEmpty
     })
@@ -66,7 +67,8 @@ object Words extends Controller {
         "",
         "",
         "",
-        ""
+        "",
+        "f"
       )
       this.wordForm.fill(newWord)
     }

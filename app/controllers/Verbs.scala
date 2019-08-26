@@ -17,7 +17,8 @@ object Verbs extends Controller{
     "id" -> longNumber,
     "language_id" -> nonEmptyText,
     "in_language" -> nonEmptyText,
-    "last_update" -> text
+    "last_update" -> text,
+    "supp" -> text
   )(Verb.apply)(Verb.unapply)
 
   val vFormMapping = mapping(
@@ -26,7 +27,8 @@ object Verbs extends Controller{
     "verb_id" -> longNumber,
     "form_type_id" -> longNumber,
     "in_language" -> text,
-    "last_update" -> text
+    "last_update" -> text,
+    "supp" -> text
   )(VForm.apply)(VForm.unapply)
 
   val formTypeMapping = mapping(
@@ -34,7 +36,8 @@ object Verbs extends Controller{
     "language_id" -> nonEmptyText,
     "number" -> number(min = 1),
     "in_language" -> nonEmptyText,
-    "last_update" ->text
+    "last_update" ->text,
+    "supp" -> text
   )(FormType.apply)(FormType.unapply)
 
   val VFormCompleteMapping = tuple(
@@ -73,10 +76,10 @@ object Verbs extends Controller{
       val errorForm = this.verbForm.bind(request.flash.data)
       errorForm
     } else {
-      val newVerb = Verb(0, codeLangue, "", "")
-      val newVForm = VForm(0, codeLangue, 0, 0, "", "")
+      val newVerb = Verb(0, codeLangue, "", "", "f")
+      val newVForm = VForm(0, codeLangue, 0, 0, "", "", "f")
       val listeTypes = FormType.findAll(codeLangue)
-      val verb = (newVerb,listeTypes.map(t => (VForm(0,codeLangue,0,t.id,"",""),t)).toList)
+      val verb = (newVerb,listeTypes.map(t => (VForm(0,codeLangue,0,t.id,"","", "f"),t)).toList)
       this.verbForm.fill(verb)
     }
     Ok(views.html.verbs.editVerb(form))
@@ -98,7 +101,8 @@ object Verbs extends Controller{
               newVerb._1.id,
               n._1.form_type_id,
               n._1.in_language,
-              ""
+              "",
+              "f"
             ))
           )
         }

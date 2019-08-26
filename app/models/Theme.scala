@@ -16,7 +16,8 @@ case class Theme (
                  language_id: String,
                  number: Int,
                  var in_language: String,
-                 var last_update: String
+                 var last_update: String,
+                 var supp: String
                  ) extends KeyedEntity[Long]
 
 object Theme {
@@ -24,7 +25,7 @@ object Theme {
   import Database.themesTable
 
   def allQ(codeLangue: String): Query[Theme] = from(themesTable) {
-    theme => where(theme.language_id === codeLangue) select theme orderBy("%02d".format(theme.number) asc)
+    theme => where(theme.language_id === codeLangue and theme.supp === "f") select theme orderBy("%02d".format(theme.number) asc)
   }
 
   def findAll(codeLangue: String): Iterable[Theme] = inTransaction {
@@ -39,28 +40,39 @@ object Theme {
 
   def findByNumber(codeLangue: String, number: Int) = inTransaction {
     from(themesTable) ( t =>
-      where(t.number === number and t.language_id === codeLangue)
+      where(t.number === number and t.language_id === codeLangue and t.supp === "f")
         select t
     ).headOption
   }
 
   def findById(id: Long) = inTransaction {
     from(themesTable) ( t =>
-      where(t.id === id)
+      where(t.id === id and t.supp === "f")
         select t
     ).headOption
   }
 
   def remove(theme: Theme) = inTransaction {
-    themesTable.delete(theme.id)
+    theme.last_update =
+      DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS"))
+    theme.supp = "t"
+    themesTable.update(theme)
   }
 
   def removeById(id: Long) = inTransaction {
-    themesTable.delete(id)
+    themesTable.update(t =>
+        where(t.id === id)
+    set(t.supp := "t",
+        t.last_update  := DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")))
+    )
   }
 
   def removeAll(codeLangue: String) = inTransaction {
-    themesTable.delete(allQ(codeLangue))
+    themesTable.update(t =>
+      where(t.language_id === codeLangue)
+        set(t.supp := "t",
+        t.last_update  := DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")))
+    )
   }
 
   def update(theme: Theme) = inTransaction {
@@ -93,7 +105,7 @@ object Theme {
             Theme.update(theme)
             nbUpdate += 1
           case None =>
-            Theme.insert(Theme(0,codeLangue,data(0).toInt,data(1),""))
+            Theme.insert(Theme(0,codeLangue,data(0).toInt,data(1),"", "f"))
             nbInsert += 1
         }
       } else {

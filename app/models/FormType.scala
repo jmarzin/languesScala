@@ -1,10 +1,12 @@
 package models
 
+import models.Database.themesTable
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.{DateTimeZone, DateTime}
+import org.joda.time.{DateTime, DateTimeZone}
 import org.squeryl.KeyedEntity
 import org.squeryl.PrimitiveTypeMode._
 import org.squeryl.Query
+
 import collection.Iterable
 import scala.language.postfixOps
 
@@ -16,7 +18,8 @@ case class FormType (
                     language_id: String,
                     number: Int,
                     in_french: String,
-                    var last_update: String
+                    var last_update: String,
+                    var supp: String
                     ) extends KeyedEntity[Long]
 
 object FormType {
@@ -24,7 +27,7 @@ object FormType {
   import Database.formsTypeTable
 
   def allQ(codeLangue: String): Query[FormType] = from(formsTypeTable) {
-    formType => where(formType.language_id === codeLangue) select formType orderBy("%02d".format(formType.number) asc)
+    formType => where(formType.language_id === codeLangue and formType.supp === "f") select formType orderBy("%02d".format(formType.number) asc)
   }
 
   def findAll(codeLangue: String): Iterable[FormType] = inTransaction {
@@ -39,24 +42,31 @@ object FormType {
 
   def findByNumber(number: Int) = inTransaction {
     from(formsTypeTable) ( ft =>
-      where(ft.number === number)
+      where(ft.number === number and ft.supp === "f")
         select ft
     ).headOption
   }
 
   def findById(id: Long) = inTransaction {
     from(formsTypeTable) ( ft =>
-      where(ft.id === id)
+      where(ft.id === id and ft.supp === "f")
         select ft
     ).headOption
   }
 
   def remove(formType: FormType) = inTransaction {
-    formsTypeTable.delete(formType.id)
+    formType.last_update =
+      DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS"))
+    formType.supp = "t"
+    formsTypeTable.update(formType)
   }
 
   def removeById(id: Long) = inTransaction {
-    formsTypeTable.delete(id)
+    formsTypeTable.update(ft =>
+      where(ft.id === id)
+        set(ft.supp := "t",
+        ft.last_update  := DateTime.now(DateTimeZone.UTC).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")))
+    )
   }
 
   def update(formType: FormType) = inTransaction {
@@ -66,7 +76,7 @@ object FormType {
   }
   def lastNumber(codeLangue: String): Int = inTransaction {
     from(formsTypeTable)(ft =>
-      where(ft.language_id === codeLangue)
+      where(ft.language_id === codeLangue and ft.supp === "f")
         compute nvl(max(ft.number), 0)
     )
   }
