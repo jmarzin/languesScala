@@ -1,0 +1,54 @@
+po;mots
+01;l'être humain;être humain;o ser humano
+01;l'homme;homme;o homem
+01;la femme;femme;a mulher
+01;l'enfant;enfant;a criança
+01;le jeune homme;jeune homme;o jovem
+01;le jeune femme;jeune femme;a jovem
+01;le garçon/le jeune garçon;garçon;o rapaz
+01;la fille/la jeune fille;fille;a rapariga
+01;le petit garçon;petit garçon;o menino
+01;la petite fille;petite fille;a menina
+01;le corps;corps;o corpo
+01;le squelette;squelette;o esqueleto
+01;l'os;os;o osso
+01;le muscle;muscle;o músculo
+01;la chair;chair;a carne
+01;la peau;peau;a pele
+01;le sang;sang;o sangue
+01;la veine;veine;a veia
+01;l'artère;artère;a artéria
+01;le nerf;nerf;o nervo
+01;le système nerveux;système nerveux;o sistema nervoso
+01;le poids;poids;o peso
+01;l'embonpoint;embonpoint;a gordura
+01;la maigreur;maigreur;a magreza
+01;la taille;taille;a altura
+01;la mine/l'aspect;mine;o aspeto
+01;la beauté;beauté;a beleza
+01;la laideur;laideur;a fealdade
+01;l'élégance;élégance;a elegância
+01;la tête;tête;a cabeça
+01;le crâne;crâne;o crânio
+01;la nuque;nuque;a nuca
+01;le cerveau;cerveau;o cérebro
+01;le front;front;a testa
+01;le visage;visage;a cara/o rosto
+01;les joues;joues;as faces/as bochechas
+01;le teint;teint;a tez
+01;la ride;ride;a ruga
+01;les cheveux;cheveux;o cabelo/os cabelos
+01;le poil;poil;o pelo
+01;la moustache;moustache;o bigode
+01;la barbe;barbe;a barba
+01;les yeux;yeux;os olhos
+01;les cernes;cernes;as olheiras
+01;les sourcils;sourcils;as sobrancelhas
+01;les cils;cils;as pestanas
+01;les paupières;paupières;as pálpebras
+01;les oreilles;oreilles;as orelhas
+01;le nez;nez;o nariz
+01;les mâchoires;mâchoires;os maxilares
+01;le menton;menton;o queixo
+01;la bouche;bouche;a boca
+01;la langue;langue;a língua

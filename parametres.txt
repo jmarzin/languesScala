@@ -1,0 +1,3 @@
+-Dconfig.resource=prod.conf
+-Dhttp.port=1234
+play.evolutions.autoApply=true in application.conf
